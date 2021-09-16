@@ -53,12 +53,12 @@ function App() {
   const saveDecks = (deck) => {
     
     let deckIndex = masterDeckList.findIndex((d) => d.deckid === deck.deckid)
-      console.log(deckIndex)
+
     if(deckIndex !== -1)
       {
         console.log(deck)
       }
-    else
+    else if(deck.deckname !== '')
       {
         setMasterDeckList([...masterDeckList, deck])
         setFilteredDecks([...masterDeckList, deck])
