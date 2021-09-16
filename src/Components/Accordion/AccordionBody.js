@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {ReactComponent as MGicon} from '../../Styles/search_icon.svg'
 
 export default function AccordionBody({content, onDetailClick}) {

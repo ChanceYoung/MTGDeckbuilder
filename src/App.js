@@ -51,18 +51,20 @@ function App() {
   }
 
   const saveDecks = (deck) => {
-    let deckIndex = masterDeckList.findIndex((d) => d.id === deck.id)
-      
+    
+    let deckIndex = masterDeckList.findIndex((d) => d.deckid === deck.deckid)
+      console.log(deckIndex)
     if(deckIndex !== -1)
       {
-        setMasterDeckList([...masterDeckList, masterDeckList[deckIndex]])
-        setFilteredDecks([...masterDeckList, masterDeckList[deckIndex]])
+        console.log(deck)
       }
     else
       {
         setMasterDeckList([...masterDeckList, deck])
         setFilteredDecks([...masterDeckList, deck])
       }
+      setToggleEdit(false)
+      setToggleAdd(false)
   }
 
   return (
@@ -74,7 +76,7 @@ function App() {
       </div>
       <div className="col-6">
         {toggleDetail ? <DeckDetailView deck={currentDeck} />: <></>}
-        {toggleEdit || toggleAdd ? <DeckEditor deck={currentDeck} />: <></>}
+        {toggleEdit || toggleAdd ? <DeckEditor deck={currentDeck} onSaveDeck={saveDecks}/>: <></>}
         <p>Details will go here, this will be a large card with decklist information, the edit details button, and remove button </p>
       </div>
     </div>
