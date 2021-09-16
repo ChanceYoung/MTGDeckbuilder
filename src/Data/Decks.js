@@ -39,9 +39,16 @@ const cards = [
 const decks = [
     {
         deckid: 0,
-        deckname: '',
-        decktype: '',
-        deckdescription: '',
+        deckname: 'Deck One',
+        decktype: 'deck one type',
+        deckdescription: 'deck one description',
+        decklist: cards,
+    },
+    {
+        deckid: 1,
+        deckname: 'Deck Two',
+        decktype: 'deck two type',
+        deckdescription: 'deck two description',
         decklist: cards,
     }
 

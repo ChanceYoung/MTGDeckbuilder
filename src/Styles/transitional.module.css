@@ -1,0 +1,9 @@
+.collapsible {
+    background-color: white;
+    transition: background-color 5s ease;
+}
+
+.collapsibleactive {
+    background-color: lightgrey;
+    transition: background-color 5s ease;
+}

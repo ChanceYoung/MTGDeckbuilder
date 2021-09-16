@@ -1,19 +1,81 @@
 import './Styles/custom.scss'
 import decks from './Data/Decks.js'
 import { useState } from 'react'
+import Accordion from './Components/Accordion/Accordion'
+import SearchComponent from './Components/Search/SearchComponent'
+import DeckDetailView from './Components/Detail/DeckDetailView'
+import DeckEditor from './Components/Detail/DeckEditor'
+
 
 function App() {
   const [filteredDecks, setFilteredDecks] = useState(decks)
+  const [masterDeckList, setMasterDeckList] = useState(decks)
+  const [currentDeck, setCurrentDeck] = useState({})
+  const [toggleAdd, setToggleAdd] = useState(false)
+  const [toggleDetail, setToggleDetail] = useState(false)
+  const [toggleEdit, setToggleEdit] = useState(false)
+  
+  const onFilterChange = (event) =>{
+    let newcards = masterDeckList.filter(deck => deck.deckname.toLowerCase().includes(event.target.value.toLowerCase()))
+    setFilteredDecks(newcards)
+  }
+
+  const handleToggleDetail = (index) => {
+            if(filteredDecks[index].deckname === currentDeck.deckname)
+            {
+              setToggleDetail(!toggleDetail)
+              setToggleEdit(false)
+              setToggleAdd(false)
+            }
+            else{
+              setToggleDetail(false)
+              setCurrentDeck(filteredDecks[index])
+              setToggleDetail(true)
+              setToggleEdit(false)
+              setToggleAdd(false)
+            }
+  }
+
+  const handleAddDeck = () => {
+    let newDeck = {
+      deckid: masterDeckList.length,
+      deckname: '',
+      decktype: '',
+      deckdescription: '',
+      decklist: [],
+    }
+    setCurrentDeck(newDeck)
+    setToggleAdd(!toggleAdd)
+    setToggleEdit(!toggleEdit)
+    setToggleDetail(false)
+  }
+
+  const saveDecks = (deck) => {
+    let deckIndex = masterDeckList.findIndex((d) => d.id === deck.id)
+      
+    if(deckIndex !== -1)
+      {
+        setMasterDeckList([...masterDeckList, masterDeckList[deckIndex]])
+        setFilteredDecks([...masterDeckList, masterDeckList[deckIndex]])
+      }
+    else
+      {
+        setMasterDeckList([...masterDeckList, deck])
+        setFilteredDecks([...masterDeckList, deck])
+      }
+  }
 
   return (
-    <div className='row'>
-      <div className="col-2">
-        <p>Filter box here</p>
-        <p>Decklist will go here, accordian style</p>
+    <div className='row justify-content-center'>
+      <div className="col-4">
+        <SearchComponent onFilterChange={onFilterChange}/>
+        <Accordion data={filteredDecks} onDetailClick={handleToggleDetail}/>
+        {toggleAdd ? <></> : <button className='btn btn-primary container' onClick={handleAddDeck}>Add A New Deck</button>}
       </div>
-      <div className="col">
+      <div className="col-6">
+        {toggleDetail ? <DeckDetailView deck={currentDeck} />: <></>}
+        {toggleEdit || toggleAdd ? <DeckEditor deck={currentDeck} />: <></>}
         <p>Details will go here, this will be a large card with decklist information, the edit details button, and remove button </p>
-        <p>Show card button, which when toggled will show us the list of bootstrap cards that are representative of the cards that exist in the currently selected deck</p>
       </div>
     </div>
   );
