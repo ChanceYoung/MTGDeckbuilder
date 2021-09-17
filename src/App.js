@@ -8,8 +8,8 @@ import DeckEditor from './Components/Detail/DeckEditor'
 
 
 function App() {
-  const [filteredDecks, setFilteredDecks] = useState(decks)
-  const [masterDeckList, setMasterDeckList] = useState(decks)
+  const [filteredDecks, setFilteredDecks] = useState([])
+  const [masterDeckList, setMasterDeckList] = useState([])
   const [currentDeck, setCurrentDeck] = useState({})
   const [toggleAdd, setToggleAdd] = useState(false)
   const [toggleDetail, setToggleDetail] = useState(false)
@@ -36,9 +36,9 @@ function App() {
             }
   }
 
-  const handleAddDeck = () => {
-    let newDeck = {
-      deckid: masterDeckList.length,
+  const handleAddDeck = () => { 
+    const newDeck = {
+      deckid: Math.random() ,
       deckname: '',
       decktype: '',
       deckdescription: '',
@@ -60,15 +60,17 @@ function App() {
         updatedDeckList[deckIndex] = deck
         setMasterDeckList(updatedDeckList)
         setFilteredDecks(updatedDeckList)
-        setCurrentDeck({})
+        setCurrentDeck(deck)
       }
     else if(deck.deckname !== '')
       {
         setMasterDeckList([...masterDeckList, deck])
         setFilteredDecks([...masterDeckList, deck])
+        setCurrentDeck(deck)
       }
       setToggleEdit(false)
       setToggleAdd(false)
+      setToggleDetail(true)
   }
 
   const handleDeckRemoval = (id) => {
