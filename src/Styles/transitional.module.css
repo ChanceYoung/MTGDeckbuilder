@@ -1,9 +1,9 @@
 .collapsible {
-    visibility: hidden;
-    transition: visibility 2s ease;
+    background-color: white;
+    transition: background-color 2s ease;
 }
 
 .collapsibleactive {
-    visibility: visible;
-    transition: visibility 5s ease;
+    background-color: lightgrey;
+    transition: background-color 2s ease;
 }
