@@ -2,7 +2,7 @@ import { useState } from 'react'
 import {ReactComponent as SaveIcon} from '../../Styles/clipboard_icon.svg'
 
 export default function DeckEditor({deck, onSaveDeck}) {
-    const [editedDeck, setEditedDeck] = useState(deck)
+   const [editedDeck, setEditedDeck] = useState(deck)
 
    const onDeckNameChange = (event) => {
     setEditedDeck({

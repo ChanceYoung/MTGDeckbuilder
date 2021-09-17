@@ -21,7 +21,7 @@ function App() {
   }
 
   const handleToggleDetail = (index) => {
-            if(filteredDecks[index].deckname === currentDeck.deckname)
+            if(filteredDecks[index].deckid === currentDeck.deckid)
             {
               setToggleDetail(!toggleDetail)
               setToggleEdit(false)
@@ -56,7 +56,11 @@ function App() {
 
     if(deckIndex !== -1)
       {
-        console.log(deck)
+        let updatedDeckList = masterDeckList
+        updatedDeckList[deckIndex] = deck
+        setMasterDeckList(updatedDeckList)
+        setFilteredDecks(updatedDeckList)
+        setCurrentDeck({})
       }
     else if(deck.deckname !== '')
       {
@@ -67,17 +71,30 @@ function App() {
       setToggleAdd(false)
   }
 
+  const handleDeckRemoval = (id) => {
+      let newDeckList = masterDeckList.filter((deck) => deck.deckid !== id)
+      setFilteredDecks(newDeckList)
+      setMasterDeckList(newDeckList)
+      setToggleDetail(false)
+  }
+
+  const handleDeckEdit = (id) => {
+    let deckEditIndex = masterDeckList.findIndex(deck => deck.deckid === id)
+    setCurrentDeck(masterDeckList[deckEditIndex])
+    setToggleEdit(!toggleEdit)
+    setToggleDetail(false)
+  }
+
   return (
-    <div className='row justify-content-center'>
+    <div className='row justify-content-center mt-5'>
       <div className="col-4">
         <SearchComponent onFilterChange={onFilterChange}/>
         <Accordion data={filteredDecks} onDetailClick={handleToggleDetail}/>
         {toggleAdd ? <></> : <button className='btn btn-primary container' onClick={handleAddDeck}>Add A New Deck</button>}
       </div>
       <div className="col-6">
-        {toggleDetail ? <DeckDetailView deck={currentDeck} />: <></>}
+        {toggleDetail ? <DeckDetailView deck={currentDeck} removeDeck={handleDeckRemoval} editDeck={handleDeckEdit}/>: <></>}
         {toggleEdit || toggleAdd ? <DeckEditor deck={currentDeck} onSaveDeck={saveDecks}/>: <></>}
-        <p>Details will go here, this will be a large card with decklist information, the edit details button, and remove button </p>
       </div>
     </div>
   );
